@@ -1,23 +1,11 @@
-import subsystem.AudioMixer;
-import subsystem.BitrateReader;
-import subsystem.Codec;
-import subsystem.CodecFactory;
-import subsystem.MediaFile;
-import subsystem.MetadataReader;
+package client;
+
+import facade.MediaConversionFacade;
 
 public class Main {
     public static void main(String[] args) {
-        MetadataReader metadataReader = new MetadataReader();
-        CodecFactory codecFactory = new CodecFactory();
-        BitrateReader bitrateReader = new BitrateReader();
-        AudioMixer audioMixer = new AudioMixer();
-
-        MediaFile source = metadataReader.read("song.wav");
-        Codec codec = codecFactory.getCodec("mp3");
-        int bitrate = bitrateReader.chooseBitrate(source, codec);
-        MediaFile normalized = audioMixer.normalize(source);
-        MediaFile result = codec.encode(normalized, bitrate);
-
+        MediaConversionFacade mediaFacade = new MediaConversionFacade();
+        String result = mediaFacade.convert("song.wav", "mp3");
         System.out.println("Result: " + result);
     }
 }
